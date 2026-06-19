@@ -17,7 +17,8 @@ async function postJson<TResponse, TPayload>(path: string, payload: TPayload): P
   const data = (await response.json()) as TResponse | { detail?: string };
 
   if (!response.ok) {
-    throw new Error("detail" in data && data.detail ? data.detail : "Request failed.");
+    const errorDetail = typeof data === "object" && data !== null && "detail" in data ? (data as { detail?: string }).detail : "Request failed.";
+    throw new Error(errorDetail || "Request failed.");
   }
 
   return data as TResponse;
@@ -38,8 +39,9 @@ async function getJson<TResponse>(path: string): Promise<TResponse> {
     
     if (!response.ok) {
       const data = (await response.json()) as { detail?: string };
+      const errorDetail = typeof data === "object" && data !== null && "detail" in data ? (data as { detail?: string }).detail : `HTTP ${response.status}`;
       console.error("[API] ❌ Response not OK:", data);
-      throw new Error("detail" in data && data.detail ? data.detail : `HTTP ${response.status}`);
+      throw new Error(errorDetail || `HTTP ${response.status}`);
     }
     
     const data = (await response.json()) as TResponse;
