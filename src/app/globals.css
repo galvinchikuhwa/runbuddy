@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --background: #0c0d0e;
+  --card: #1C1B1F;
+  --surface: #1F212A;
+  --surface-strong: #2F313A;
+  --text: #ffffff;
+  --text-muted: rgba(238, 238, 238, 0.72);
+  --border: rgba(114, 114, 114, 0.1);
+  --primary: #3A393E;
+  --primary-contrast: #FFFFFF;
+  --primary-active: #64646B;
+  --surface-fade: rgba(255, 255, 255, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: radial-gradient(circle at top, #111119 0%, var(--background) 55%);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-contrast);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-active);
+}
+
+.surface-card {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.nav-pill {
+  background-color: var(--primary);
+  color: var(--primary-contrast);
+  opacity: 0.3;
+}
+
+.nav-pill-active {
+  background-color: var(--primary-active);
+}
+
+/* Smooth gradient fade behind bottom nav during scroll - mobile only */
+@media (max-width: 640px) {
+  .scroll-fade-bottom {
+    position: relative;
+    /* reserve space so content isn't hidden behind the fixed bottom nav */
+    padding-bottom: calc(7rem + env(safe-area-inset-bottom));
+    /* ensure scroll-to-anchor / keyboard scrolling stops above nav */
+    scroll-padding-bottom: calc(7rem + env(safe-area-inset-bottom));
+  }
+
+  /* overlays are only present while the sticky pill is visible */
+  body.fade-active .scroll-fade-bottom::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10rem;
+    background: linear-gradient(
+      to bottom,
+      var(--background) 0%,
+      rgba(0, 0, 0, 0.8) 20%,
+      rgba(0, 0, 0, 0.3) 60%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    pointer-events: none;
+    z-index: 30;
+    opacity: 1;
+    transition: opacity 220ms ease;
+  }
+
+  .scroll-fade-bottom::after {
+    content: "";
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10rem;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.3) 40%,
+      rgba(0, 0, 0, 0.8) 80%,
+      var(--background) 100%
+    );
+    pointer-events: none;
+    z-index: 30;
+    bottom: 0rem;
+    opacity: 1;
+    transition: opacity 220ms ease;
+  }
+}
+
+
