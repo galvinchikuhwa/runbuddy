@@ -31,9 +31,10 @@ export function TrainingCalendar({ runs }: TrainingCalendarProps) {
   const firstDayOfMonth = new Date(visibleYear, visibleMonth, 1).getDay();
   const daysInMonth = new Date(visibleYear, visibleMonth + 1, 0).getDate();
 
-  const calendarCells = Array.from({ length: firstDayOfMonth }, () => null).concat(
-    Array.from({ length: daysInMonth }, (_, index) => index + 1),
-  );
+  const calendarCells: (null | number)[] = [
+    ...Array.from({ length: firstDayOfMonth }, () => null),
+    ...Array.from({ length: daysInMonth }, (_, index) => index + 1),
+  ];
 
   const trainingDaysThisMonth = getTrainingDaysThisMonth(
     runs.filter((run) => {
